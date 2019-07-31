@@ -1,7 +1,5 @@
 package cyril.cieslak.weatherforecastbygps.Fragments
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -14,8 +12,8 @@ import android.view.ViewGroup
 import cyril.cieslak.weatherforecastbygps.ItemWeatherAdapter
 
 import cyril.cieslak.weatherforecastbygps.R
-import cyril.cieslak.weatherforecastbygps.Utils.JSONDownloaderMeteoNow
-import cyril.cieslak.weatherforecastbygps.Utils.parseDatasWeatherNow
+import cyril.cieslak.weatherforecastbygps.Utils.Downloaders.JSONDownloaderMeteoNow
+import cyril.cieslak.weatherforecastbygps.Utils.Parsers.parseDatasWeatherNow
 
 @Suppress("UNREACHABLE_CODE")
 class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -74,7 +72,10 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 
         // to get the String JSonData, we use the class JSONDownloaderTopStories
-        var jsonDataPreview = JSONDownloaderMeteoNow(context!!, jsonWeatherNow).execute().get()
+        var jsonDataPreview = JSONDownloaderMeteoNow(
+            context!!,
+            jsonWeatherNow
+        ).execute().get()
         Log.i("bingo", " jsonDataPreview : $jsonDataPreview")
 
 
@@ -85,7 +86,7 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         adapter = ItemWeatherAdapter(datas)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_in_layout_weather)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_in_layout_weather_now)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 

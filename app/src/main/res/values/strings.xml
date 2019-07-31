@@ -11,4 +11,7 @@
     <string name="real_temperature">25</string>
     <string name="hard_coded_wind">Wind ( km/h ) :</string>
     <string name="real_wind">12</string>
+    <string name="timestamp">timestamp</string>
+    <string name="hard_coded_humidity">Humidity</string>
+    <string name="real_humidity">51</string>
 </resources>

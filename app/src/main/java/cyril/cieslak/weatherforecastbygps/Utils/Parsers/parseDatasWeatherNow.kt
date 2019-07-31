@@ -1,4 +1,4 @@
-package cyril.cieslak.weatherforecastbygps.Utils
+package cyril.cieslak.weatherforecastbygps.Utils.Parsers
 
 import android.util.Log
 import org.json.JSONException
