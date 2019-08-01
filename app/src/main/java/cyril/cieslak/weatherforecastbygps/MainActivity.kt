@@ -12,11 +12,13 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
+import android.util.Log
 import android.view.View
 import com.google.android.gms.location.*
 import cyril.cieslak.weatherforecastbygps.Fragments.NowFragment
 import cyril.cieslak.weatherforecastbygps.Fragments.TodayFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.properties.Delegates
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +30,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var locationRequest : LocationRequest
     lateinit var locationCallback : LocationCallback
 
+  //  lateinit var listener:
+
     val REQUEST_CODE = 1000
+
+    var latitudeChanging : String by Delegates.observable("latitude") {property, oldValue, newValue ->
+
+    }
+
+    var longitudeChanging : String by Delegates.observable("longitude") {property, oldValue, newValue ->
+
+    }
 
 
     lateinit var drawer: DrawerLayout
@@ -61,8 +73,6 @@ class MainActivity : AppCompatActivity() {
             buildLocationRequest()
             buildLocationCallBack()
 
-//            val currentLat = "cuutt"
-//            val currentLongi = "jfklhfdlkf"
 
 
 
@@ -86,6 +96,8 @@ class MainActivity : AppCompatActivity() {
 
             })
         }
+
+        Log.i("MainActivity", "Value of Latitude : $latitudeChanging and of Longitude : $longitudeChanging")
 
     }
 
@@ -130,17 +142,13 @@ class MainActivity : AppCompatActivity() {
                 yourCurrentLatitude.text = location.latitude.toString()
                 yourCurrentLongitude.text = location.longitude.toString()
 
-                val currentLat = location.latitude.toString()
-                val currentLongi = location.longitude.toString()
+                // Get the changes on the latitude and longitude
+                latitudeChanging = location.latitude.toString()
 
-//                val bundle = Bundle()
-//                val lat = "$currentLat"
-//                val longi = "$currentLongi"
-//                bundle.putString("latitude", lat)
-//                bundle.putString("longitude", longi)
+             //   listener.onLocationChanged(latitudeChanging)
+                longitudeChanging = location.longitude.toString()
 
-            //    sharedViewModel?.latitude?.postValue(currentLat)
-
+                Log.i("MainActivity", "AFTER CLIC Value of Latitude : $latitudeChanging and of Longitude : $longitudeChanging")
 
             }
 
@@ -156,5 +164,7 @@ class MainActivity : AppCompatActivity() {
         locationRequest.smallestDisplacement = 10f
 
     }
+
+
 
 }

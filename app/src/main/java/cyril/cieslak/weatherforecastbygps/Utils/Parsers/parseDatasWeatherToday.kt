@@ -3,11 +3,10 @@ package cyril.cieslak.weatherforecastbygps.Utils.Parsers
 import android.util.Log
 import org.json.JSONException
 import org.json.JSONObject
-import kotlin.math.absoluteValue
 
 class parseDatasWeatherToday() {
 
-    val KELVIN_TO_CELCIUS :  Double = 273.15
+    val KELVIN_TO_CELCIUS: Double = 273.15
     val YEAR_MONTH_DAY = 10
     val YEAR_MONTH = 7
     val FIRST_FOUR = 4
@@ -103,14 +102,14 @@ class parseDatasWeatherToday() {
             for (i in 0 until jaTimestamp.length()) {
                 val joTimestamp = jaTimestamp.getJSONObject(i)
 
-                val timestamp = joTimestamp.getString("dt")
+                val timestamp = joTimestamp.getString("dt_txt")
                 Log.i("banga", "timestamp : $timestamp")
 
 
                 // Get Temperature and Humidity
 
                 val jaTempHum = jo.getJSONArray("list")
-                for (i in 0 until jaTempHum.length()) {
+                for (i in 0 until jaTempHum.length() ) {
                     val joTempHum = jaTempHum.getJSONObject(i)
 
                     val jobTempHum = joTempHum.getJSONObject("main")
@@ -124,13 +123,15 @@ class parseDatasWeatherToday() {
 
                     // Get Wind
 
+
                     val jaWind = jo.getJSONArray("list")
                     for (i in 0 until jaWind.length()) {
 
                         val joWind = jaWind.getJSONObject(i)
                         val jobWind = joWind.getJSONObject("wind")
 
-                        val speed = jobWind.getString("speed")
+                        var speed = jobWind.getString("speed")
+
                         Log.i("banga", "Wind Speed : $speed")
 
 
@@ -176,26 +177,30 @@ class parseDatasWeatherToday() {
 //                        "" -> urlToPrint = "$DUMB_PICTURE_WHEN_NO_PIC_TO_DOWNLOAD"
 //                        else -> urlToPrint = url
 //                    }
-//
+
 
                         var icon_weather = "04d"
 
-                                val data =
-                                    mutableListOf<String>(
-                                        cityName,
-                                        country,
-                                        temperature,
-                                        speed,
-                                        icon_weather,
-                                        timestamp,
-                                        humidity
-                                    )
-                                datas.add(data)
-                            }
-                        }
+                        val data =
+                            mutableListOf<String>(
+                                cityName,
+                                country,
+                                temperature,
+                                speed,
+                                icon_weather,
+                                timestamp,
+                                humidity
+                            )
+                        datas.add(data)
+
                     }
-  //              }
-   //         }
+                }
+
+            }
+
+
+            //              }
+            //         }
             Log.i("banga", "returned datas : $datas")
             return datas
 
@@ -207,7 +212,6 @@ class parseDatasWeatherToday() {
         Log.i("banga", "returned CATCH datas : $datas")
         return datas
     }
-
 
 
 //    fun whatIsTheDateToPrint(updated_date : String) : String {
