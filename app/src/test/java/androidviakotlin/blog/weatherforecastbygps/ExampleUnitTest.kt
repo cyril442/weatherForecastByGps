@@ -1,4 +1,4 @@
-package cyril.cieslak.weatherforecastbygps
+package androidviakotlin.blog.weatherforecastbygps
 
 import org.junit.Test
 

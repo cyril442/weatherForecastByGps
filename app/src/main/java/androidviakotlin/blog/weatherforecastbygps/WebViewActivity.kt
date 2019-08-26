@@ -1,4 +1,4 @@
-package cyril.cieslak.weatherforecastbygps
+package androidviakotlin.blog.weatherforecastbygps
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar
 import android.view.KeyEvent
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidviakotlin.blog.weatherforecastbygps.R
 
 class WebViewActivity : AppCompatActivity() {
 

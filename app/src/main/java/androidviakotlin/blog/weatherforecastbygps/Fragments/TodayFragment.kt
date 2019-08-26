@@ -1,4 +1,4 @@
-package cyril.cieslak.weatherforecastbygps.Fragments
+package androidviakotlin.blog.weatherforecastbygps.Fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,16 +9,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import cyril.cieslak.weatherforecastbygps.ItemWeatherAdapter
+import androidviakotlin.blog.weatherforecastbygps.ItemWeatherTodayAdapter
 
-import cyril.cieslak.weatherforecastbygps.R
-import cyril.cieslak.weatherforecastbygps.Utils.Downloaders.JSONDownloaderMeteoNow
-import cyril.cieslak.weatherforecastbygps.Utils.Parsers.parseDatasWeatherNow
+import androidviakotlin.blog.weatherforecastbygps.R
+import androidviakotlin.blog.weatherforecastbygps.Utils.Downloaders.JSONDownloaderMeteoNow
+import androidviakotlin.blog.weatherforecastbygps.Utils.Parsers.parseDatasWeatherToday
 
 @Suppress("UNREACHABLE_CODE")
-class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
-
-
+class TodayFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 
     var datas = mutableListOf(
@@ -41,13 +39,13 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         )
     )
 
-    var adapter = ItemWeatherAdapter(datas)
+    var adapter = ItemWeatherTodayAdapter(datas)
 
-    val jsonWeatherNow = "http://api.openweathermap.org/data/2.5/weather?lat=43.398796&lon=-0.4370218&appid=467005a2981f9965ac02fa6dabd5fc2e"
+    val jsonWeatherNow =
+        "http://api.openweathermap.org/data/2.5/forecast?lat=43.398796&lon=-0.4370218&appid=467005a2981f9965ac02fa6dabd5fc2e"
 
 
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
-
 
 
     override fun onCreateView(
@@ -56,10 +54,9 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     ): View? {
 
 
-        var theview = inflater.inflate(R.layout.fragment_now, container, false)
+        var theview = inflater.inflate(R.layout.fragment_today, container, false)
         swipeRefreshLayout = theview.findViewById(R.id.swiperefreshweather)
         swipeRefreshLayout.setOnRefreshListener(this)
-
 
 
         // Inflate the layout for this fragment
@@ -76,17 +73,17 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             context!!,
             jsonWeatherNow
         ).execute().get()
-        Log.i("bingo", " jsonDataPreview : $jsonDataPreview")
+        Log.i("banga", " jsonDataPreview : $jsonDataPreview")
 
 
         // To Parse the result of the JSONDownloadTopStories using the external CLass parseDatas() which include the method parseDatasFromApi
-        datas = parseDatasWeatherNow().parseDatasFromApi(jsonDataPreview)
-        Log.i("bingo", " datas parsed : $datas")
+        datas = parseDatasWeatherToday().parseDatasFromApi(jsonDataPreview)
+        Log.i("banga", " datas parsed : $datas")
 
 
-        adapter = ItemWeatherAdapter(datas)
+        adapter = ItemWeatherTodayAdapter(datas)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_in_layout_weather_now)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_in_layout_weather_today)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
@@ -100,9 +97,5 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             swipeRefreshLayout.setRefreshing(false)
         }
     }
-
-
-
-
-
 }
+

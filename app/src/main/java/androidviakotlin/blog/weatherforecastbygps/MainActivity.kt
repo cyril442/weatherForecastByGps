@@ -1,5 +1,6 @@
-package cyril.cieslak.weatherforecastbygps
+package androidviakotlin.blog.weatherforecastbygps
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -15,32 +16,34 @@ import android.support.v4.widget.DrawerLayout
 import android.util.Log
 import android.view.View
 import com.google.android.gms.location.*
-import cyril.cieslak.weatherforecastbygps.Fragments.NowFragment
-import cyril.cieslak.weatherforecastbygps.Fragments.TodayFragment
+import androidviakotlin.blog.weatherforecastbygps.Fragments.NowFragment
+import androidviakotlin.blog.weatherforecastbygps.Fragments.TodayFragment
+import androidviakotlin.blog.weatherforecastbygps.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.properties.Delegates
 
 
 class MainActivity : AppCompatActivity() {
 
+    // Creation du lateInit viewModel de type LoginViewModel
+    lateinit var viewModel: LatitudeViewModel
 
-  //  private var sharedViewModel: SharedViewModel? = null
 
     lateinit var fusedLocationProviderClient : FusedLocationProviderClient
     lateinit var locationRequest : LocationRequest
     lateinit var locationCallback : LocationCallback
 
-  //  lateinit var listener:
+
 
     val REQUEST_CODE = 1000
 
-    var latitudeChanging : String by Delegates.observable("latitude") {property, oldValue, newValue ->
-
-    }
-
-    var longitudeChanging : String by Delegates.observable("longitude") {property, oldValue, newValue ->
-
-    }
+//    var latitudeChanging : String by Delegates.observable("latitude") {property, oldValue, newValue ->
+//
+//    }
+//
+//    var longitudeChanging : String by Delegates.observable("longitude") {property, oldValue, newValue ->
+//
+//    }
 
 
     lateinit var drawer: DrawerLayout
@@ -51,16 +54,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Manage the NavigationView with TabLayout and viewPager
-        var tabLayout = findViewById<TabLayout>(R.id.tabs)
-        var pager = findViewById<ViewPager>(R.id.viewPager)
+//        var tabLayout = findViewById<TabLayout>(R.id.tabs)
+//        var pager = findViewById<ViewPager>(R.id.viewPager)
 
+        // On fait entrer viewModel dans le scope de l'activité
+        viewModel = ViewModelProviders.of(this).get(LatitudeViewModel::class.java)
 
         // Page Adapter
         val adapter = MyViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(NowFragment(), "Now")
         adapter.addFragment(TodayFragment(), "Today")
 //        adapter.addFragment(FragmentSports(), "Sports")
-//        adapter.addFragment(FragmentWeather(), "Meteo")
+////        adapter.addFragment(FragmentWeather(), "Meteo")
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
 
@@ -97,7 +102,7 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
-        Log.i("MainActivity", "Value of Latitude : $latitudeChanging and of Longitude : $longitudeChanging")
+   //     Log.i("MainActivity", "Value of Latitude : $latitudeChanging and of Longitude : $longitudeChanging")
 
     }
 
@@ -141,14 +146,24 @@ class MainActivity : AppCompatActivity() {
                 var location = p0!!.locations.get(p0!!.locations.size-1)
                 yourCurrentLatitude.text = location.latitude.toString()
                 yourCurrentLongitude.text = location.longitude.toString()
+//
 
-                // Get the changes on the latitude and longitude
-                latitudeChanging = location.latitude.toString()
+                var latt = location.latitude.toString()
+                var longi = location.longitude.toString()
 
-             //   listener.onLocationChanged(latitudeChanging)
-                longitudeChanging = location.longitude.toString()
+                viewModel.entryLatitude(latt)
+                viewModel.entryLongitude((longi))
 
-                Log.i("MainActivity", "AFTER CLIC Value of Latitude : $latitudeChanging and of Longitude : $longitudeChanging")
+
+
+
+//                // Get the changes on the latitude and longitude
+//                latitudeChanging = location.latitude.toString()
+//
+//             //   listener.onLocationChanged(latitudeChanging)
+//                longitudeChanging = location.longitude.toString()
+//
+//                Log.i("MainActivity", "AFTER CLIC Value of Latitude : $latitudeChanging and of Longitude : $longitudeChanging")
 
             }
 

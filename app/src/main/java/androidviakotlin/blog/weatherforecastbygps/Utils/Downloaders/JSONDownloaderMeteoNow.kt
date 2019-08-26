@@ -1,4 +1,4 @@
-package cyril.cieslak.weatherforecastbygps.Utils.Downloaders
+package androidviakotlin.blog.weatherforecastbygps.Utils.Downloaders
 
 import android.app.ProgressDialog
 import android.content.Context
