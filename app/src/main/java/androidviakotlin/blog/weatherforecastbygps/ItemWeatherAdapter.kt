@@ -55,18 +55,34 @@ class ItemWeatherAdapter(val datas: List<MutableList<String>>) : RecyclerView.Ad
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val iconCode = datas[position][4]
-        val pictureToDownload =  "http://openweathermap.org/img/wn/$iconCode@2x.png"
+        var pictureToDownload =  "http://openweathermap.org/img/wn/$iconCode@2x.png"
 
         val data = datas[position]
 
+        when (iconCode) {
+            //Sunny
+            "01d","01n" -> holder.icon_weather.setImageResource(R.drawable.sunny)
+            // Partially cloudy
+            "02n", "02d", "03n", "03d"  -> holder.icon_weather.setImageResource(R.drawable.partly_cloudly)
+            // Mostly Cloudly
+            "04d","04n" -> holder.icon_weather.setImageResource(R.drawable.mostly_cloudy)
+            // Fog
+            "50d" -> holder.icon_weather.setImageResource(R.drawable.fog)
+            //Snow
+            "13d" -> holder.icon_weather.setImageResource(R.drawable.snow)
+            // Moderate Rain
+            "10d" -> holder.icon_weather.setImageResource(R.drawable.moderate_rain)
+            // Rain
+            "09d" -> holder.icon_weather.setImageResource(R.drawable.rain)
+            // Storm
+            "11d" -> holder.icon_weather.setImageResource(R.drawable.storm)
+
+            else -> holder.icon_weather.setImageResource(R.drawable.ic_launcher_background)
+            //downLoadPicassoIcon(pictureToDownload)
+
+        }
 
 
-        //  holder.icon_weather.setImageResource(R.mipmap.ic_launcher)
-        Picasso.get()
-            ?.load(pictureToDownload)
-            ?.placeholder(R.drawable.icons8_soleil_64)
-            ?.error(R.mipmap.ic_launcher)
-            ?.into(holder.icon_weather)
 
         holder?.cityName?.text = datas[position][0]
         holder?.country?.text = datas[position][1]
@@ -82,5 +98,12 @@ class ItemWeatherAdapter(val datas: List<MutableList<String>>) : RecyclerView.Ad
 
     }
 
+//    fun downLoadPicassoIcon(pictureToDownload : String) {
+//        Picasso.get()
+//            ?.load(pictureToDownload)
+//            ?.placeholder(R.drawable.icons8_soleil_64)
+//            ?.error(R.mipmap.ic_launcher)
+//            ?.into(holder.icon_weather)
+//    }
 
 }
