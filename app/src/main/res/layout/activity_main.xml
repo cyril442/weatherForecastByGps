@@ -55,7 +55,12 @@
                     android:layout_marginLeft="10dp"
                     app:layout_constraintTop_toTopOf="@id/root_coordinates"
                     app:layout_constraintBottom_toBottomOf="@id/root_coordinates"
-                    style="@style/Widget.AppCompat.Button" />
+                    android:background="@drawable/custombutton"
+<!--                    style="@style/Widget.AppCompat.Button"-->
+<!--                    android:backgroundTint="@color/colorBlueHalo"-->
+<!--                    android:textColor="@color/colorWhite"-->
+
+                    />
 
 
             <TextView

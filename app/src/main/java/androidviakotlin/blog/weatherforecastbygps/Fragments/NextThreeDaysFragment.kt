@@ -11,7 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidviakotlin.blog.weatherforecastbygps.ItemWeatherNextFiveDaysAdapter
+import androidviakotlin.blog.weatherforecastbygps.ItemWeatherNextThreeDaysAdapter
 import androidviakotlin.blog.weatherforecastbygps.LatitudeViewModel
 
 import androidviakotlin.blog.weatherforecastbygps.R
@@ -19,7 +19,7 @@ import androidviakotlin.blog.weatherforecastbygps.Utils.Downloaders.JSONDownload
 import androidviakotlin.blog.weatherforecastbygps.Utils.Parsers.parseDatasWeatherNextFiveDays
 
 @Suppress("UNREACHABLE_CODE")
-class NextFiveDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class NextThreeDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     // Creation du lateInit viewModel de type LatitudeViewModel
     lateinit var viewModelLatitude: LatitudeViewModel
@@ -44,7 +44,7 @@ class NextFiveDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         )
     )
 
-    var adapter = ItemWeatherNextFiveDaysAdapter(datas)
+    var adapter = ItemWeatherNextThreeDaysAdapter(datas)
 
     var jsonWeatherNow =
         "http://api.openweathermap.org/data/2.5/forecast?lat=48.8534&lon=2.3488&units=metric&cnt=24&appid=467005a2981f9965ac02fa6dabd5fc2e"
@@ -59,7 +59,7 @@ class NextFiveDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     ): View? {
 
 
-        var theview = inflater.inflate(R.layout.fragment_today, container, false)
+        var theview = inflater.inflate(R.layout.fragment_nextthreedays, container, false)
         swipeRefreshLayout = theview.findViewById(R.id.swiperefreshweather)
         swipeRefreshLayout.setOnRefreshListener(this)
 
@@ -126,7 +126,7 @@ class NextFiveDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         Log.i("banga", " datas parsed : $datas")
 
 
-        adapter = ItemWeatherNextFiveDaysAdapter(datas)
+        adapter = ItemWeatherNextThreeDaysAdapter(datas)
 
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view_in_layout_weather_today)
         recyclerView?.layoutManager = LinearLayoutManager(context)

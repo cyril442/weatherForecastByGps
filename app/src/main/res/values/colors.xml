@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#a8e5ee</color>
+    <color name="colorPrimaryDark">#a8e5ee</color>
+    <color name="colorAccent">#94d0d8</color>
+    // beach color palette
+    <color name="colorBlueHalo">#33b5e5</color>
+    <color name="colorWhite">#ffff</color>
+
 </resources>

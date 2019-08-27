@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.squareup.picasso.Picasso
 
 
-class ItemWeatherNextFiveDaysAdapter(val datas: List<MutableList<String>>) : RecyclerView.Adapter<ItemWeatherNextFiveDaysAdapter.ViewHolder>() {
+class ItemWeatherNextThreeDaysAdapter(val datas: List<MutableList<String>>) : RecyclerView.Adapter<ItemWeatherNextThreeDaysAdapter.ViewHolder>() {
 
 
     class ViewHolder(itemView: View, var urlArticle : String = "") : RecyclerView.ViewHolder(itemView) {
@@ -47,7 +46,7 @@ class ItemWeatherNextFiveDaysAdapter(val datas: List<MutableList<String>>) : Rec
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val viewItem = inflater.inflate(R.layout.itemweather_today, parent, false)
+        val viewItem = inflater.inflate(R.layout.itemweather_nextthreedays, parent, false)
 
 
         return ViewHolder(viewItem)
@@ -60,14 +59,29 @@ class ItemWeatherNextFiveDaysAdapter(val datas: List<MutableList<String>>) : Rec
 
         val data = datas[position]
 
+        when (iconCode) {
+            //Sunny
+            "01d","01n" -> holder.icon_weather.setImageResource(R.drawable.sunny)
+            // Partially cloudy
+            "02n", "02d", "03n", "03d"  -> holder.icon_weather.setImageResource(R.drawable.partly_cloudly)
+            // Mostly Cloudly
+            "04d","04n" -> holder.icon_weather.setImageResource(R.drawable.mostly_cloudy)
+            // Fog
+            "50d" -> holder.icon_weather.setImageResource(R.drawable.fog)
+            //Snow
+            "13d" -> holder.icon_weather.setImageResource(R.drawable.snow)
+            // Moderate Rain
+            "10d" -> holder.icon_weather.setImageResource(R.drawable.moderate_rain)
+            // Rain
+            "09d" -> holder.icon_weather.setImageResource(R.drawable.rain)
+            // Storm
+            "11d" -> holder.icon_weather.setImageResource(R.drawable.storm)
 
+            else -> holder.icon_weather.setImageResource(R.drawable.ic_launcher_background)
+            //downLoadPicassoIcon(pictureToDownload)
 
-        //  holder.icon_weather.setImageResource(R.mipmap.ic_launcher)
-        Picasso.get()
-            ?.load(pictureToDownload)
-            ?.placeholder(R.drawable.icons8_soleil_64)
-            ?.error(R.mipmap.ic_launcher)
-            ?.into(holder.icon_weather)
+        }
+
 
         holder?.cityName?.text = datas[position][0]
         holder?.country?.text = datas[position][1]
@@ -86,6 +100,19 @@ class ItemWeatherNextFiveDaysAdapter(val datas: List<MutableList<String>>) : Rec
         return datas.size
 
     }
+
+
+//    fun downLoadPicassoIcon(pictureToDownload : String) {
+//        Picasso.get()
+//    ?.load(pictureToDownload)
+//    ?.placeholder(R.drawable.icons8_soleil_64)
+//    ?.error(R.mipmap.ic_launcher)
+//    ?.into(holder.icon_weather)
+//    }
+
+
+    //  holder.icon_weather.setImageResource(R.mipmap.ic_launcher)
+
 
 
 }

@@ -61,7 +61,7 @@ class ItemWeatherAdapter(val datas: List<MutableList<String>>) : RecyclerView.Ad
 
         when (iconCode) {
             //Sunny
-            "01d","01n" -> holder.icon_weather.setImageResource(R.drawable.sunny)
+            "01d","01n" -> holder.icon_weather.setImageResource(R.drawable.sunny_96)
             // Partially cloudy
             "02n", "02d", "03n", "03d"  -> holder.icon_weather.setImageResource(R.drawable.partly_cloudly)
             // Mostly Cloudly
