@@ -7,11 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidviakotlin.blog.weatherforecastbygps.R
 import com.squareup.picasso.Picasso
 
 
-class ItemWeatherTodayAdapter(val datas: List<MutableList<String>>) : RecyclerView.Adapter<ItemWeatherTodayAdapter.ViewHolder>() {
+class ItemWeatherNextFiveDaysAdapter(val datas: List<MutableList<String>>) : RecyclerView.Adapter<ItemWeatherNextFiveDaysAdapter.ViewHolder>() {
 
 
     class ViewHolder(itemView: View, var urlArticle : String = "") : RecyclerView.ViewHolder(itemView) {

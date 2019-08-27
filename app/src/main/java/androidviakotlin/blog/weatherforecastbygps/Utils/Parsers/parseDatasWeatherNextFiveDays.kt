@@ -1,10 +1,11 @@
 package androidviakotlin.blog.weatherforecastbygps.Utils.Parsers
 
 import android.util.Log
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-class parseDatasWeatherToday() {
+class parseDatasWeatherNextFiveDays() {
 
     val KELVIN_TO_CELCIUS: Double = 273.15
     val YEAR_MONTH_DAY = 10
@@ -12,6 +13,7 @@ class parseDatasWeatherToday() {
     val FIRST_FOUR = 4
     val LAST_TWO = 2
     val FIRST_ELEMENT_OF_THE_INDEX = 0
+    val SECOND_ELEMENT_OF_THE_INDEX = 1
     val DUMB_PICTURE_WHEN_NO_PIC_TO_DOWNLOAD =
         "https://i5.photobucket.com/albums/y152/courtney210/wave-bashful_zps5ab77563.jpg"
 
@@ -40,7 +42,7 @@ class parseDatasWeatherToday() {
 
 
         var json = jsonDataPreview
-
+        Log.i("banga1", "jsonDataPreview dans le parser : $json")
 
         try {
 
@@ -48,24 +50,40 @@ class parseDatasWeatherToday() {
             datas.clear()
 
             jo = JSONObject(json)
-            Log.i("banga", "jo : $jo")
+            Log.i("banga1", "jo : $jo")
+
+            var jaList = jo.getJSONArray("list")
+            Log.i("banga1", "jaLIST : $jaList")
 
             // get CityName
+            var cityName = getCityName(jo)
+            Log.i("banga1", "cityName : $cityName")
 //         OLD WAY   val cityName = jo.getString("name")
             // OK looks good
-            val cityNameObject = jo.getJSONObject("city")
-            val cityName = cityNameObject.getString("name")
-            Log.i("banga", "cityName : $cityName")
+//            val cityNameObject = jo.getJSONObject("city")
+//            val cityName = cityNameObject.getString("name")
+//            Log.i("banga", "cityName : $cityName")
+//
+//            getCityName(jo)
+
 
 
             // get CountryName
+            var country = getCountryName(jo)
+            Log.i("banga1", "country : $country")
             // OK keep this
-            val countryName = jo.getJSONObject("city")
-            val country = countryName.getString("country")
-            Log.i("banga", "country  : $country")
+//            val countryName = jo.getJSONObject("city")
+//            val country = countryName.getString("country")
+//            Log.i("banga", "country  : $country")
 
 
 //            // get Temperature
+            var temperature = getTemperature(jo)
+            Log.i("banga1", "temperature : $temperature")
+
+
+
+
 //            val temperatureObject = jo.getJSONObject("main")
 //           val temperatureString = temperatureObject.getString("temp")
 //            val temperatureKelvin = temperatureString.toDouble()
@@ -103,36 +121,38 @@ class parseDatasWeatherToday() {
                 val joTimestamp = jaTimestamp.getJSONObject(i)
 
                 val timestamp = joTimestamp.getString("dt_txt")
-                Log.i("banga", "timestamp : $timestamp")
+                Log.i("banga1", "timestamp : $timestamp")
 
 
                 // Get Temperature and Humidity
-
-                val jaTempHum = jo.getJSONArray("list")
-                for (i in 0 until jaTempHum.length() ) {
-                    val joTempHum = jaTempHum.getJSONObject(i)
-
-                    val jobTempHum = joTempHum.getJSONObject("main")
-
-                    val temperature = jobTempHum.getString("temp")
-                    val humidity = jobTempHum.getString("humidity")
-
-
-                    Log.i("banga", "humidity : $humidity")
-                    Log.i("banga", "temprature : $temperature")
+//
+//                val jaTempHum = jo.getJSONArray("list")
+//                for (i in 0 until jaTempHum.length() ) {
+//                    val joTempHum = jaTempHum.getJSONObject(i)
+//
+//                    val jobTempHum = joTempHum.getJSONObject("main")
+//
+//                   // val temperature = jobTempHum.getString("temp")
+//                    val humidity = jobTempHum.getString("humidity")
+//
+//
+//                    Log.i("banga", "humidity : $humidity")
+//
+//
+//                    Log.i("banga", "temprature : $temperature")
 
                     // Get Wind
 
-
-                    val jaWind = jo.getJSONArray("list")
-                    for (i in 0 until jaWind.length()) {
-
-                        val joWind = jaWind.getJSONObject(i)
-                        val jobWind = joWind.getJSONObject("wind")
-
-                        var speed = jobWind.getString("speed")
-
-                        Log.i("banga", "Wind Speed : $speed")
+//
+//                    val jaWind = jo.getJSONArray("list")
+//                    for (i in 0 until jaWind.length()) {
+//
+//                        val joWind = jaWind.getJSONObject(i)
+//                        val jobWind = joWind.getJSONObject("wind")
+//
+//                        var speed = jobWind.getString("speed")
+//
+//                        Log.i("banga", "Wind Speed : $speed")
 
 
                         // get Icon Weather
@@ -179,7 +199,9 @@ class parseDatasWeatherToday() {
 //                    }
 
 
+                    var humidity = "42"
                         var icon_weather = "04d"
+                          var speed = "12"
 
                         val data =
                             mutableListOf<String>(
@@ -194,14 +216,14 @@ class parseDatasWeatherToday() {
                         datas.add(data)
 
                     }
-                }
+              //  }
 
-            }
+         //   }
 
 
             //              }
             //         }
-            Log.i("banga", "returned datas : $datas")
+            Log.i("banga1", "returned datas : $datas")
             return datas
 
 
@@ -209,9 +231,11 @@ class parseDatasWeatherToday() {
             e.printStackTrace()
 
         }
-        Log.i("banga", "returned CATCH datas : $datas")
+        Log.i("banga1", "returned CATCH datas : $datas")
         return datas
     }
+
+
 
 
 //    fun whatIsTheDateToPrint(updated_date : String) : String {
@@ -239,4 +263,45 @@ class parseDatasWeatherToday() {
 //
 //        return subsectionReadyToPrint
 //    }
+
+    fun getCityName(jo : JSONObject) : String{
+        val cityNameObject = jo.getJSONObject("city")
+        val cityName = cityNameObject.getString("name")
+        Log.i("banga", "cityName : $cityName")
+        return cityName
+    }
+
+    fun getCountryName(jo : JSONObject) : String{
+        val countryName = jo.getJSONObject("city")
+        val country = countryName.getString("country")
+        Log.i("banga", "country  : $country")
+        return country
+
+    }
+
+    fun getTemperature(jo: JSONObject) : String {
+        var temp = "14"
+        val jaTemp = jo.getJSONArray("list")
+       Log.i("banga2", "jaTemp : $jaTemp")
+
+        for (i in 0 until jaTemp.length() ) {
+            val temperatureMain = jaTemp.getJSONObject(i)
+            Log.i("banga2", "temperatureMain : $temperatureMain")
+
+            val temperatureObj = temperatureMain.getJSONObject("main")
+            Log.i("banga2", "temperatureObj : $temperatureObj")
+
+            val temperature = temperatureObj.getString("temp")
+            Log.i("banga2", "temperature : $temperature")
+
+           temp = temperature
+    }
+
+        return temp
+
+
+
+    }
+
+
 }

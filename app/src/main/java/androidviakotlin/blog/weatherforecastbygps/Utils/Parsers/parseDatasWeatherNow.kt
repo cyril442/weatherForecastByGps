@@ -6,7 +6,7 @@ import org.json.JSONObject
 
 class parseDatasWeatherNow() {
 
-    val KELVIN_TO_CELCIUS :  Double = 273.15
+    val KELVIN_TO_CELCIUS :  Double = 0.0
     val YEAR_MONTH_DAY = 10
     val YEAR_MONTH = 7
     val FIRST_FOUR = 4

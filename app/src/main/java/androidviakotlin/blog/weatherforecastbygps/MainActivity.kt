@@ -5,22 +5,17 @@ import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
-import android.support.design.widget.TabLayout
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.GravityCompat
-import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
-import android.util.Log
 import android.view.View
 import com.google.android.gms.location.*
 import androidviakotlin.blog.weatherforecastbygps.Fragments.NowFragment
-import androidviakotlin.blog.weatherforecastbygps.Fragments.TodayFragment
-import androidviakotlin.blog.weatherforecastbygps.R
+import androidviakotlin.blog.weatherforecastbygps.Fragments.NextFiveDaysFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.properties.Delegates
 
 
 class MainActivity : AppCompatActivity() {
@@ -63,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         // Page Adapter
         val adapter = MyViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(NowFragment(), "Now")
-        adapter.addFragment(TodayFragment(), "Today")
+        adapter.addFragment(NextFiveDaysFragment(), "Next 5 days")
 //        adapter.addFragment(FragmentSports(), "Sports")
 ////        adapter.addFragment(FragmentWeather(), "Meteo")
         viewPager.adapter = adapter
