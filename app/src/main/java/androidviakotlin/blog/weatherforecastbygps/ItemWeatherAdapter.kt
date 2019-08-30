@@ -16,30 +16,12 @@ class ItemWeatherAdapter(val datas: List<MutableList<String>>) : RecyclerView.Ad
 
     class ViewHolder(itemView: View, var urlArticle : String = "") : RecyclerView.ViewHolder(itemView) {
 
-        companion object{
-
-            val URL_ARTICLE_LINK = "URL_ARTICLE_LINK"
-        }
-
-        init {
-            itemView.setOnClickListener {
-                println("Ca gaze")
-
-                val intent = Intent(itemView.context, WebViewActivity::class.java)
-
-                intent.putExtra(URL_ARTICLE_LINK, urlArticle)
-                itemView.context.startActivity(intent)
-
-            }
-        }
 
         val icon_weather = itemView.findViewById<ImageView>(R.id.icon_weather)
         val cityName = itemView.findViewById<TextView>(R.id.cityName)
         val country = itemView.findViewById<TextView>(R.id.country)
         val temperature = itemView.findViewById<TextView>(R.id.temperature)
         val speed = itemView.findViewById<TextView>(R.id.speed)
-
-
 
     }
 
@@ -61,7 +43,9 @@ class ItemWeatherAdapter(val datas: List<MutableList<String>>) : RecyclerView.Ad
 
         when (iconCode) {
             //Sunny
-            "01d","01n" -> holder.icon_weather.setImageResource(R.drawable.sunny_96)
+            "01d" -> holder.icon_weather.setImageResource(R.drawable.sunny_96)
+            // Sun Night
+            "01n" -> holder.icon_weather.setImageResource(R.drawable.sun_night)
             // Partially cloudy
             "02n", "02d", "03n", "03d"  -> holder.icon_weather.setImageResource(R.drawable.partly_cloudly)
             // Mostly Cloudly
@@ -73,7 +57,7 @@ class ItemWeatherAdapter(val datas: List<MutableList<String>>) : RecyclerView.Ad
             // Moderate Rain
             "10d" -> holder.icon_weather.setImageResource(R.drawable.moderate_rain)
             // Rain
-            "09d" -> holder.icon_weather.setImageResource(R.drawable.rain)
+            "09d" -> holder.icon_weather.setImageResource(R.drawable.rainy)
             // Storm
             "11d" -> holder.icon_weather.setImageResource(R.drawable.storm)
 
@@ -97,13 +81,5 @@ class ItemWeatherAdapter(val datas: List<MutableList<String>>) : RecyclerView.Ad
         return datas.size
 
     }
-
-//    fun downLoadPicassoIcon(pictureToDownload : String) {
-//        Picasso.get()
-//            ?.load(pictureToDownload)
-//            ?.placeholder(R.drawable.icons8_soleil_64)
-//            ?.error(R.mipmap.ic_launcher)
-//            ?.into(holder.icon_weather)
-//    }
 
 }

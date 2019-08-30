@@ -1,21 +1,38 @@
 package androidviakotlin.blog.weatherforecastbygps.Utils.Parsers
 
+
+import android.app.Activity
+import android.content.res.Resources
+import android.support.v4.content.res.TypedArrayUtils.getString
+import android.support.v4.content.res.TypedArrayUtils.getText
 import android.util.Log
+import androidviakotlin.blog.weatherforecastbygps.R
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.ArrayList
+
+data class Months(
+
+    var aout: String = (R.string.Aout).toString()
+
+)
 
 class parseDatasWeatherNextFiveDays() {
 
-    val KELVIN_TO_CELCIUS: Double = 273.15
+
     val YEAR_MONTH_DAY = 10
     val YEAR_MONTH = 7
     val FIRST_FOUR = 4
     val LAST_TWO = 2
+    val EIGHT = 8
+    val FIVE = 5
     val FIRST_ELEMENT_OF_THE_INDEX = 0
     val SECOND_ELEMENT_OF_THE_INDEX = 1
     val DUMB_PICTURE_WHEN_NO_PIC_TO_DOWNLOAD =
         "https://i5.photobucket.com/albums/y152/courtney210/wave-bashful_zps5ab77563.jpg"
+
+    lateinit var endTemperature: String
 
     var datas = mutableListOf(
         mutableListOf<String>(
@@ -58,31 +75,59 @@ class parseDatasWeatherNextFiveDays() {
             // get CityName
             var cityName = getCityName(jo)
             Log.i("banga1", "cityName : $cityName")
-//         OLD WAY   val cityName = jo.getString("name")
-            // OK looks good
-//            val cityNameObject = jo.getJSONObject("city")
-//            val cityName = cityNameObject.getString("name")
-//            Log.i("banga", "cityName : $cityName")
-//
-//            getCityName(jo)
 
 
 
             // get CountryName
             var country = getCountryName(jo)
             Log.i("banga1", "country : $country")
-            // OK keep this
-//            val countryName = jo.getJSONObject("city")
-//            val country = countryName.getString("country")
-//            Log.i("banga", "country  : $country")
+
 
 
 //            // get Temperature
-            var temperature = getTemperature(jo)
+            var temperature = getTemperature(jo).toString()
+//         //   var temperature = getTheFeckingTemperature()
             Log.i("banga1", "temperature : $temperature")
 
 
-
+            /// TEST TEMPERATURE
+//
+//            endTemperature = "test"
+//            var endTemp = "testEndTemp"
+//            var temp = ArrayList<String>()
+//
+//            val jaTemp = jo.getJSONArray("list")
+//            Log.i("banga2", "jaTemp : $jaTemp")
+//
+//            for (i in 0 until jaTemp.length()) {
+//                val temperatureMain = jaTemp.getJSONObject(i)
+//                Log.i("banga2", "temperatureMain : $temperatureMain")
+//
+//                val temperatureObj = temperatureMain.getJSONObject("main")
+//                Log.i("banga2", "temperatureObj : $temperatureObj")
+//
+//                val temperature = temperatureObj.getString("temp")
+//                Log.i("banga2", "temperature : $temperature")
+//
+//                temp.add(temperature)
+//
+//            }
+//
+//        Log.i("banga2", "TEMP: $temp")
+//        //  var arr = temp.size
+//        var i = 0
+//        var sizeJaTemp = jaTemp.length()
+//        Log.i("banga2", "Value de sizeJaTemp: $sizeJaTemp")
+//
+//
+//            while (i !== sizeJaTemp) {
+//                i++
+//                Log.i("banga2", "Value I: $i")
+//                endTemperature = temp.get(i - 1)
+//                Log.i("banga2", "Value Premier return: $endTemperature")
+//
+//                           }
+//            var temperature = endTemperature
 
 //            val temperatureObject = jo.getJSONObject("main")
 //           val temperatureString = temperatureObject.getString("temp")
@@ -120,8 +165,10 @@ class parseDatasWeatherNextFiveDays() {
             for (i in 0 until jaTimestamp.length()) {
                 val joTimestamp = jaTimestamp.getJSONObject(i)
 
-                val timestamp = joTimestamp.getString("dt_txt")
-                Log.i("banga1", "timestamp : $timestamp")
+                val timestampNotFormated = joTimestamp.getString("dt_txt")
+                Log.i("banga1", "timestamp : $timestampNotFormated")
+
+                val timestamp = getTheCorrectDateFormat(timestampNotFormated)
 
 
                 // Get Temperature and Humidity
@@ -141,7 +188,7 @@ class parseDatasWeatherNextFiveDays() {
 //
 //                    Log.i("banga", "temprature : $temperature")
 
-                    // Get Wind
+                // Get Wind
 
 //
 //                    val jaWind = jo.getJSONArray("list")
@@ -155,7 +202,7 @@ class parseDatasWeatherNextFiveDays() {
 //                        Log.i("banga", "Wind Speed : $speed")
 
 
-                        // get Icon Weather
+                // get Icon Weather
 
 //                        val jaIcon = jo.getJSONArray("list")
 //                        for (i in 0 until jaIcon.length()-1) {
@@ -199,26 +246,26 @@ class parseDatasWeatherNextFiveDays() {
 //                    }
 
 
-                    var humidity = "42"
-                        var icon_weather = "04d"
-                          var speed = "12"
+                var humidity = "42"
+                var icon_weather = "01n"
+                var speed = "12"
 
-                        val data =
-                            mutableListOf<String>(
-                                cityName,
-                                country,
-                                temperature,
-                                speed,
-                                icon_weather,
-                                timestamp,
-                                humidity
-                            )
-                        datas.add(data)
+                val data =
+                    mutableListOf<String>(
+                        cityName,
+                        country,
+                        temperature,
+                        speed,
+                        icon_weather,
+                        timestamp,
+                        humidity
+                    )
+                datas.add(data)
 
-                    }
-              //  }
+            }
+            //  }
 
-         //   }
+            //   }
 
 
             //              }
@@ -235,43 +282,64 @@ class parseDatasWeatherNextFiveDays() {
         return datas
     }
 
+    fun getTheCorrectDateFormat(timestamp: String?): String {
+
+        var letimestamp: String
+
+        var dateTenChar = timestamp?.take(YEAR_MONTH_DAY)
+        var day = dateTenChar?.takeLast(LAST_TWO)
+
+        var monthLastFour = dateTenChar?.take(YEAR_MONTH)
+        var month = monthLastFour?.takeLast(LAST_TWO)
+
+        var monthToPrint = getTheCorrectMonthFormat(month)
+
+
+        var hourLastEight = timestamp?.takeLast(EIGHT)
+        var hours = hourLastEight?.take(FIVE)
 
 
 
-//    fun whatIsTheDateToPrint(updated_date : String) : String {
-//
-//        //***--- FORMATTING THE DATE ---***//
-//        var date10char = updated_date.take(YEAR_MONTH_DAY)
-//        var date7char = updated_date.take(YEAR_MONTH)
-//        var dateYear = date10char.take(FIRST_FOUR)
-//        var dateMonth = date7char.takeLast(LAST_TWO)
-//        var dateDay = date10char.takeLast(LAST_TWO)
-//        var dateToPrint = "$dateDay/$dateMonth/$dateYear"
-//        //***--------------------------------***//
-//
-//        return dateToPrint
-//    }
-//
-//    fun valueOfTheSubsectionReadyToPrint(subsection: String): String {
-//
-//        //***--- PREPARATION OF THE SUBSECTION TO PRINT with a " > " before the texte to print---***//
-//        var subsectionReadyToPrint: String
-//        when (subsection) {
-//            "" -> subsectionReadyToPrint = subsection
-//            else -> subsectionReadyToPrint = " > $subsection"
-//        }
-//
-//        return subsectionReadyToPrint
-//    }
+        letimestamp = "le $day $monthToPrint a $hours"
 
-    fun getCityName(jo : JSONObject) : String{
+        return letimestamp
+    }
+
+    fun getTheCorrectMonthFormat(month: String?): String {
+
+
+
+        var monthTo: String = ""
+
+        when (month) {
+            "01" -> monthTo = "Janvier"
+            "02" -> monthTo = "Fevrier"
+            "03" -> monthTo = "Mars"
+            "04" -> monthTo = "Avril"
+            "05" -> monthTo = "Mai"
+            "06" -> monthTo = "Juin"
+            "07" -> monthTo = "Juillet"
+            "08" -> monthTo = Months().aout
+            "09" -> monthTo = "Septembre"
+            "10" -> monthTo = "Octobre"
+            "11" -> monthTo = "Novembre"
+            "12" -> monthTo = "Décembre"
+
+        }
+
+
+        return monthTo
+    }
+
+
+    fun getCityName(jo: JSONObject): String {
         val cityNameObject = jo.getJSONObject("city")
         val cityName = cityNameObject.getString("name")
         Log.i("banga", "cityName : $cityName")
         return cityName
     }
 
-    fun getCountryName(jo : JSONObject) : String{
+    fun getCountryName(jo: JSONObject): String {
         val countryName = jo.getJSONObject("city")
         val country = countryName.getString("country")
         Log.i("banga", "country  : $country")
@@ -279,12 +347,16 @@ class parseDatasWeatherNextFiveDays() {
 
     }
 
-    fun getTemperature(jo: JSONObject) : String {
-        var temp = "14"
-        val jaTemp = jo.getJSONArray("list")
-       Log.i("banga2", "jaTemp : $jaTemp")
+    fun getTemperature(jo: JSONObject) {
 
-        for (i in 0 until jaTemp.length() ) {
+        endTemperature = "test"
+        var endTemp = "testEndTemp"
+        var temp = ArrayList<String>()
+
+        val jaTemp = jo.getJSONArray("list")
+        Log.i("banga2", "jaTemp : $jaTemp")
+
+        for (i in 0 until jaTemp.length()) {
             val temperatureMain = jaTemp.getJSONObject(i)
             Log.i("banga2", "temperatureMain : $temperatureMain")
 
@@ -294,14 +366,59 @@ class parseDatasWeatherNextFiveDays() {
             val temperature = temperatureObj.getString("temp")
             Log.i("banga2", "temperature : $temperature")
 
-           temp = temperature
+            temp.add(temperature)
+
+        }
+        Log.i("banga2", "TEMP: $temp")
+        //  var arr = temp.size
+//        var i = 0
+//        var sizeJaTemp = jaTemp.length()
+//        Log.i("banga2", "Value de sizeJaTemp: $sizeJaTemp")
+//        // ArrayList to Array Conversion
+//        for (i in 0 until arr) {
+//
+//            var jet = temp.get(i)
+//
+//            //  return jet
+//
+//        }
+//            return jet
+//        }
+
+
+        for (temmp in temp) {
+
+            endTemperature = temmp
+
+
+//        while (i !== sizeJaTemp) {
+//            i++
+//            Log.i("banga2", "Value I: $i")
+//            endTemperature = temp.get(i-1)
+//            Log.i("banga2", "Value Premier return: $endTemperature")
+//
+//            return endTemperature
+//            // getTheFeckingTemperature()
+//        }
+//        Log.i("banga2", "Value endTempBefore: $endTemp")
+//        return endTemperature
+//        Log.i("banga2", "Value endTempAfter: $endTemp")
+
+            //   }
+//
+//    private fun getTheFeckingTemperature() : String{
+//
+//        var temperature = endTemperature
+//        Log.i("banga2", "Value what is the Fecking Temperature: $temperature")
+//        return temperature
+//    }
+            Log.i("banga2", "Value Second return: $endTemperature")
+
+
+        }
     }
-
-        return temp
-
-
-
-    }
-
 
 }
+
+
+

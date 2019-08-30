@@ -1,10 +1,14 @@
 package androidviakotlin.blog.weatherforecastbygps
 
+import android.app.Activity
+import android.app.ProgressDialog
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -15,6 +19,7 @@ import android.view.View
 import com.google.android.gms.location.*
 import androidviakotlin.blog.weatherforecastbygps.Fragments.NowFragment
 import androidviakotlin.blog.weatherforecastbygps.Fragments.NextThreeDaysFragment
+import androidviakotlin.blog.weatherforecastbygps.Utils.Downloaders.JSONDownloaderMeteoNow
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -28,41 +33,25 @@ class MainActivity : AppCompatActivity() {
     lateinit var locationRequest : LocationRequest
     lateinit var locationCallback : LocationCallback
 
-
-
     val REQUEST_CODE = 1000
 
-//    var latitudeChanging : String by Delegates.observable("latitude") {property, oldValue, newValue ->
-//
-//    }
-//
-//    var longitudeChanging : String by Delegates.observable("longitude") {property, oldValue, newValue ->
-//
-//    }
-
-
-    lateinit var drawer: DrawerLayout
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Manage the NavigationView with TabLayout and viewPager
-//        var tabLayout = findViewById<TabLayout>(R.id.tabs)
-//        var pager = findViewById<ViewPager>(R.id.viewPager)
+
 
         // On fait entrer viewModel dans le scope de l'activité
         viewModel = ViewModelProviders.of(this).get(LatitudeViewModel::class.java)
 
         // Page Adapter
         val adapter = MyViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(NowFragment(), "Now")
-        adapter.addFragment(NextThreeDaysFragment(), "Next 3 days")
-//        adapter.addFragment(FragmentSports(), "Sports")
-////        adapter.addFragment(FragmentWeather(), "Meteo")
+        adapter.addFragment(NowFragment(), getString(R.string.titleNowFragment))
+        adapter.addFragment(NextThreeDaysFragment(), getString(R.string.titleNextThreeDaysFragment))
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
+
 
         // Check Permission for GPS point
         if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION))
@@ -72,9 +61,6 @@ class MainActivity : AppCompatActivity() {
         {
             buildLocationRequest()
             buildLocationCallBack()
-
-
-
 
 
             // Create FusedProviderClient
@@ -91,23 +77,17 @@ class MainActivity : AppCompatActivity() {
                 }
                 fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
 
-
+                Snackbar.make(it, "Mise à jour des données",Snackbar.LENGTH_SHORT).show()
 
 
             })
         }
 
-   //     Log.i("MainActivity", "Value of Latitude : $latitudeChanging and of Longitude : $longitudeChanging")
 
     }
 
     override fun onBackPressed() {
-
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
+        super.onBackPressed()
     }
 
     // CLASS To MANAGE the PageAdapter
@@ -141,24 +121,12 @@ class MainActivity : AppCompatActivity() {
                 var location = p0!!.locations.get(p0!!.locations.size-1)
                 yourCurrentLatitude.text = location.latitude.toString()
                 yourCurrentLongitude.text = location.longitude.toString()
-//
 
                 var latt = location.latitude.toString()
                 var longi = location.longitude.toString()
 
                 viewModel.entryLatitude(latt)
                 viewModel.entryLongitude((longi))
-
-
-
-
-//                // Get the changes on the latitude and longitude
-//                latitudeChanging = location.latitude.toString()
-//
-//             //   listener.onLocationChanged(latitudeChanging)
-//                longitudeChanging = location.longitude.toString()
-//
-//                Log.i("MainActivity", "AFTER CLIC Value of Latitude : $latitudeChanging and of Longitude : $longitudeChanging")
 
             }
 
@@ -175,6 +143,20 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        /// On fait entrer viewModel dans le scope de l'activité
+        viewModel = ViewModelProviders.of(this).get(LatitudeViewModel::class.java)
+
+        //On s'abonne aux changements d'état et quand l'état change, on lance la fonction UpdateUI avec en valeur par défaut it
+        viewModel.getStateLatitude().observe(this, Observer {
+            yourCurrentLatitude.text = it
+
+            viewModel.getStateLongitude().observe(this, Observer { itt : String? ->
+              yourCurrentLongitude.text = itt
+            })
+        })
+        super.onResume()
+    }
 
 
 }

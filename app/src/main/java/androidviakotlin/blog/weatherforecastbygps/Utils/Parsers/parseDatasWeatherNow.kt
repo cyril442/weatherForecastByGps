@@ -6,14 +6,6 @@ import org.json.JSONObject
 
 class parseDatasWeatherNow() {
 
-    val KELVIN_TO_CELCIUS :  Double = 0.0
-    val YEAR_MONTH_DAY = 10
-    val YEAR_MONTH = 7
-    val FIRST_FOUR = 4
-    val LAST_TWO = 2
-    val FIRST_ELEMENT_OF_THE_INDEX = 0
-    val DUMB_PICTURE_WHEN_NO_PIC_TO_DOWNLOAD =
-        "https://i5.photobucket.com/albums/y152/courtney210/wave-bashful_zps5ab77563.jpg"
 
     var datas = mutableListOf(
         mutableListOf<String>(
@@ -63,13 +55,9 @@ class parseDatasWeatherNow() {
 
             // get Temperature
             val temperatureObject = jo.getJSONObject("main")
-           val temperatureString = temperatureObject.getString("temp")
-            val temperatureKelvin = temperatureString.toDouble()
-            val temperatureCelciusDouble = (temperatureKelvin-KELVIN_TO_CELCIUS).toDouble()
-          //  val temperatureCelciusRound = String.format("%.2f", temperatureCelciusDouble).toDouble()
-            val temperatureCelciusString = temperatureCelciusDouble.toString()
+           val temperature = temperatureObject.getString("temp")
 
-            Log.i("bingo", "temperatureCelciusString : $temperatureCelciusString")
+            Log.i("bingo", "temperatureCelciusString : $temperature")
 
             // Get Wind
             val windObject = jo.getJSONObject("wind")
@@ -84,42 +72,10 @@ class parseDatasWeatherNow() {
 
                 val icon_weather = job.getString("icon")
                 Log.i("bingo", "icon : $icon_weather")
-//                val section = jo.getString("section")
-//                val subsection = jo.getString("subsection")
-//                val updated_date = jo.getString("updated_date")
-//                val urlArticle = jo.getString("url")
 
-
-//
-//
-//                // See the function Below to know know i the susbestion if prepared for printing
-//            val subsectionReadyToPrint = valueOfTheSubsectionReadyToPrint(subsection)
-//
-//
-//
-//            // See the function bellow transforming the string
-//            val dateToPrint = whatIsTheDateToPrint(updated_date)
-//
-//            val jam = jo.getJSONArray("multimedia")
-//
-//            var urlToPrint: String
-//                if (jam.length() == 0) {
-//                    urlToPrint = "https://i5.photobucket.com/albums/y152/courtney210/wave-bashful_zps5ab77563.jpg"
-//                } else {
-//
-//                    var jom = jam[FIRST_ELEMENT_OF_THE_INDEX] as JSONObject
-//                    var url = jom.getString("url")
-//
-//                    //***--- GET AN IMAGE EVEN WHEN MULTIMEDIA IS EMPTY  ---**//
-//
-//                    when (url) {
-//                        "" -> urlToPrint = "$DUMB_PICTURE_WHEN_NO_PIC_TO_DOWNLOAD"
-//                        else -> urlToPrint = url
-//                    }
-//
 
             val data =
-                mutableListOf<String>(cityName, country, temperatureCelciusString, speed, icon_weather)
+                mutableListOf<String>(cityName, country, temperature, speed, icon_weather)
             datas.add(data)
 
         }
@@ -136,31 +92,4 @@ class parseDatasWeatherNow() {
         return datas
     }
 
-
-
-//    fun whatIsTheDateToPrint(updated_date : String) : String {
-//
-//        //***--- FORMATTING THE DATE ---***//
-//        var date10char = updated_date.take(YEAR_MONTH_DAY)
-//        var date7char = updated_date.take(YEAR_MONTH)
-//        var dateYear = date10char.take(FIRST_FOUR)
-//        var dateMonth = date7char.takeLast(LAST_TWO)
-//        var dateDay = date10char.takeLast(LAST_TWO)
-//        var dateToPrint = "$dateDay/$dateMonth/$dateYear"
-//        //***--------------------------------***//
-//
-//        return dateToPrint
-//    }
-//
-//    fun valueOfTheSubsectionReadyToPrint(subsection: String): String {
-//
-//        //***--- PREPARATION OF THE SUBSECTION TO PRINT with a " > " before the texte to print---***//
-//        var subsectionReadyToPrint: String
-//        when (subsection) {
-//            "" -> subsectionReadyToPrint = subsection
-//            else -> subsectionReadyToPrint = " > $subsection"
-//        }
-//
-//        return subsectionReadyToPrint
-//    }
 }

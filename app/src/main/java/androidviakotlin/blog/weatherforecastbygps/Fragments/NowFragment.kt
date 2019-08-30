@@ -17,6 +17,7 @@ import androidviakotlin.blog.weatherforecastbygps.LatitudeViewModel
 import androidviakotlin.blog.weatherforecastbygps.R
 import androidviakotlin.blog.weatherforecastbygps.Utils.Downloaders.JSONDownloaderMeteoNow
 import androidviakotlin.blog.weatherforecastbygps.Utils.Parsers.parseDatasWeatherNow
+import java.util.concurrent.Executors
 
 @Suppress("UNREACHABLE_CODE")
 class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -75,7 +76,9 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
         getTheNewLocation(jsonWeatherNow)
+
 
         // On fait entrer viewModel dans le scope de l'activité
         viewModelLatitude = ViewModelProviders.of(activity!!).get(LatitudeViewModel::class.java)

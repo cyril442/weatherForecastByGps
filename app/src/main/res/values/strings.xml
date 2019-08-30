@@ -1,17 +1,39 @@
 <resources>
     <string name="app_name">WeatherForecastByGps</string>
-    <string name="YourCoordinates">Update Coordinates</string>
+    <string name="YourCoordinates">Mise à Jour Données Météo</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="now">Currently In :</string>
+    <string name="now">Actuellement à :</string>
     <string name="cityName">City Name</string>
     <string name="country">Country</string>
     <string name="hard_coded_temperature">Temperature (°C) :</string>
     <string name="real_temperature">25</string>
-    <string name="hard_coded_wind">Wind ( km/h ) :</string>
+    <string name="hard_coded_wind">Vent ( km/h ) :</string>
     <string name="real_wind">12</string>
     <string name="timestamp">timestamp</string>
-    <string name="hard_coded_humidity">Humidity</string>
+    <string name="hard_coded_humidity">Humidité ( % )</string>
     <string name="real_humidity">51</string>
+
+    <string name="Janvier">Janvier</string>
+    <string name="Fevrier">Février</string>
+    <string name="Mars">Mars</string>
+    <string name="Avril">Avril</string>
+    <string name="Mai">Mai</string>
+    <string name="Juin">Juin</string>
+    <string name="Juillet">Juillet</string>
+    <string name="Aout">Aout</string>
+    <string name="Septembre">Septembre</string>
+    <string name="Octobre">Octobre</string>
+    <string name="Novembre">Novembre</string>
+    <string name="Décembre">Décembre</string>
+    <string name="titleNowFragment">Actuellement</string>
+    <string name="titleNextThreeDaysFragment">Les 3 prochains Jours</string>
+    <string name="latitude">Latitude</string>
+    <string name="latitudeValueSample">48.8534</string>
+    <string name="longitude">Longitude</string>
+    <string name="longitudeValueSample">2.3488</string>
+
+    <string name="Le">le</string>
+    <string name="a">\@\</string>
 </resources>
