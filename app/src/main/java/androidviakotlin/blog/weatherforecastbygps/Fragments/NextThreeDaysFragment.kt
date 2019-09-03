@@ -17,6 +17,7 @@ import androidviakotlin.blog.weatherforecastbygps.LatitudeViewModel
 import androidviakotlin.blog.weatherforecastbygps.R
 import androidviakotlin.blog.weatherforecastbygps.Utils.Downloaders.JSONDownloaderMeteoNow
 import androidviakotlin.blog.weatherforecastbygps.Utils.Parsers.parseDatasWeatherNextFiveDays
+import androidviakotlin.blog.weatherforecastbygps.Utils.Weather
 
 @Suppress("UNREACHABLE_CODE")
 class NextThreeDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -25,22 +26,23 @@ class NextThreeDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     lateinit var viewModelLatitude: LatitudeViewModel
 
     var datas = mutableListOf(
-        mutableListOf<String>(
-            "un",
-            "deux",
-            "trois",
-            "quatre",
-            "cinq",
-            "six",
-            "sept",
-            "huit",
-            "neuf",
-            "dix",
-            "onze",
-            "douze",
-            "treize",
-            "quatorze",
-            "quinze"
+        mutableListOf<Weather>(
+            Weather()
+//            "un",
+//            "deux",
+//            "trois",
+//            "quatre",
+//            "cinq",
+//            "six",
+//            "sept",
+//            "huit",
+//            "neuf",
+//            "dix",
+//            "onze",
+//            "douze",
+//            "treize",
+//            "quatorze",
+//            "quinze"
         )
     )
 

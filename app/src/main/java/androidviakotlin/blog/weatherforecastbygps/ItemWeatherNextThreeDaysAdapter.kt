@@ -7,9 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidviakotlin.blog.weatherforecastbygps.Utils.Weather
 
 
-class ItemWeatherNextThreeDaysAdapter(val datas: List<MutableList<String>>) : RecyclerView.Adapter<ItemWeatherNextThreeDaysAdapter.ViewHolder>() {
+class ItemWeatherNextThreeDaysAdapter(val datas: List<MutableList<Weather>>) : RecyclerView.Adapter<ItemWeatherNextThreeDaysAdapter.ViewHolder>() {
 
 
     class ViewHolder(itemView: View, var urlArticle : String = "") : RecyclerView.ViewHolder(itemView) {
@@ -36,10 +37,10 @@ class ItemWeatherNextThreeDaysAdapter(val datas: List<MutableList<String>>) : Re
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val iconCode = datas[position][4]
+        val iconCode = datas[position][0].icon_weather
         val pictureToDownload =  "http://openweathermap.org/img/wn/$iconCode@2x.png"
 
-        val data = datas[position]
+//        val data = datas[position]
 
         when (iconCode) {
             //Sunny
@@ -51,27 +52,27 @@ class ItemWeatherNextThreeDaysAdapter(val datas: List<MutableList<String>>) : Re
             // Mostly Cloudly
             "04d","04n" -> holder.icon_weather.setImageResource(R.drawable.mostly_cloudy)
             // Fog
-            "50d" -> holder.icon_weather.setImageResource(R.drawable.fog)
+            "50d", "50n" -> holder.icon_weather.setImageResource(R.drawable.fog)
             //Snow
-            "13d" -> holder.icon_weather.setImageResource(R.drawable.snow)
+            "13d", "13n" -> holder.icon_weather.setImageResource(R.drawable.snow)
             // Moderate Rain
-            "10d" -> holder.icon_weather.setImageResource(R.drawable.moderate_rain)
+            "10d", "10n" -> holder.icon_weather.setImageResource(R.drawable.moderate_rain)
             // Rain
-            "09d" -> holder.icon_weather.setImageResource(R.drawable.rainy)
+            "09d", "09n" -> holder.icon_weather.setImageResource(R.drawable.rainy)
             // Storm
-            "11d" -> holder.icon_weather.setImageResource(R.drawable.storm)
+            "11d", "11n" -> holder.icon_weather.setImageResource(R.drawable.storm)
 
             else -> holder.icon_weather.setImageResource(R.drawable.ic_launcher_background)
             //downLoadPicassoIcon(pictureToDownload)
 
         }
 
-        holder?.cityName?.text = datas[position][0]
-        holder?.country?.text = datas[position][1]
-        holder?.temperature?.text = datas[position][2]
-        holder?.speed?.text = datas[position][3]
-        holder?.timestamp?.text = datas[position][5]
-        holder?.humidity?.text = datas[position][6]
+        holder?.cityName?.text = datas[position][0].cityName
+        holder?.country?.text = datas[position][0].country
+        holder?.temperature?.text = datas[position][0].temperature
+        holder?.speed?.text = datas[position][0].speed
+        holder?.timestamp?.text = datas[position][0].timestamp
+        holder?.humidity?.text = datas[position][0].humidity
 
 
     }
