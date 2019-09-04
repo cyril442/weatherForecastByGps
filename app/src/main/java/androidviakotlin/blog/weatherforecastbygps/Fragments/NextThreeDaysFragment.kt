@@ -1,12 +1,13 @@
 package androidviakotlin.blog.weatherforecastbygps.Fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import android.content.res.Resources
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -65,8 +66,7 @@ class NextThreeDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         swipeRefreshLayout = theview.findViewById(R.id.swiperefreshweather)
         swipeRefreshLayout.setOnRefreshListener(this)
 
-
-        // Inflate the layout for this fragment
+                // Inflate the layout for this fragment
         return theview
 
 
@@ -112,7 +112,7 @@ class NextThreeDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
 
-    private fun getTheNewLocation (jsonWeatherNow : String) {
+    fun getTheNewLocation (jsonWeatherNow : String) {
 
 
         // to get the String JSonData, we use the class JSONDownloaderTopStories
@@ -130,9 +130,35 @@ class NextThreeDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         adapter = ItemWeatherNextThreeDaysAdapter(datas)
 
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view_in_layout_weather_today)
-        recyclerView?.layoutManager = LinearLayoutManager(context)
+        val recyclerView = view?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view_in_layout_weather_today)
+        recyclerView?.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         recyclerView?.adapter = adapter
+    }
+
+    fun getTheCorrectMonthFormat(month: String?): String {
+
+        var monthTo: String = ""
+
+           var leContext = this.context
+
+        when (month) {
+            "01" -> monthTo = (R.string.Janvier).toString()
+            "02" -> monthTo = (R.string.Fevrier).toString()
+            "03" -> monthTo = (R.string.Mars).toString()
+            "04" -> monthTo = (R.string.Avril).toString()
+            "05" -> monthTo = (R.string.Mai).toString()
+            "06" -> monthTo = (R.string.Juin).toString()
+            "07" -> monthTo = (R.string.Juillet).toString()
+            "08" -> monthTo = "aout"
+            "09" -> monthTo = "Septembre"
+            "10" -> monthTo = (R.string.Octobre).toString()
+            "11" -> monthTo = (R.string.Novembre).toString()
+            "12" -> monthTo = (R.string.Décembre).toString()
+
+        }
+        Log.i("banga8", "MonthTo : $monthTo")
+
+        return monthTo
     }
 }
 

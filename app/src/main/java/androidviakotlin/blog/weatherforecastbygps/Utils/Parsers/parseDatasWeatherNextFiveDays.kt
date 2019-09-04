@@ -2,6 +2,7 @@ package androidviakotlin.blog.weatherforecastbygps.Utils.Parsers
 
 
 import android.util.Log
+import androidviakotlin.blog.weatherforecastbygps.Fragments.NextThreeDaysFragment
 import androidviakotlin.blog.weatherforecastbygps.Utils.Weather
 import org.json.JSONException
 import org.json.JSONObject
@@ -63,9 +64,14 @@ class parseDatasWeatherNextFiveDays() {
                 val joTimestamp = jsonArrayList.getJSONObject(i)
 
                 val timestampNotFormated = joTimestamp.getString("dt_txt")
-                Log.i("banga1", "timestamp : $timestampNotFormated")
+                Log.i("banga8", "timestampNotFormated : $timestampNotFormated")
 
                 val timestamp = getTheCorrectDateFormat(timestampNotFormated)
+
+         //       val timestamp = joTimestamp.getString("dt_txt")
+
+        //        val timestamp = Weather().setRealDateTime(jjtimestamp)
+
 
                 // Temperature in JsonArrayList:
                 var reformatTemp = getTemperature(jo)
@@ -125,9 +131,10 @@ class parseDatasWeatherNextFiveDays() {
 
         var monthLastFour = dateTenChar?.take(YEAR_MONTH)
         var month = monthLastFour?.takeLast(LAST_TWO)
+        Log.i("banga8", "Month : $month")
 
-        var monthToPrint = getTheCorrectMonthFormat(month)
-
+        var monthToPrint = NextThreeDaysFragment().getTheCorrectMonthFormat(month)
+        Log.i("banga8", "MonthToPrint : $monthToPrint")
 
         var hourLastEight = timestamp?.takeLast(EIGHT)
         var hours = hourLastEight?.take(FIVE)
@@ -139,30 +146,7 @@ class parseDatasWeatherNextFiveDays() {
         return letimestamp
     }
 
-    fun getTheCorrectMonthFormat(month: String?): String {
 
-
-        var monthTo: String = ""
-
-        when (month) {
-            "01" -> monthTo = "Janvier"
-            "02" -> monthTo = "Fevrier"
-            "03" -> monthTo = "Mars"
-            "04" -> monthTo = "Avril"
-            "05" -> monthTo = "Mai"
-            "06" -> monthTo = "Juin"
-            "07" -> monthTo = "Juillet"
-            "08" -> monthTo = "Aout"
-            "09" -> monthTo = "Septembre"
-            "10" -> monthTo = "Octobre"
-            "11" -> monthTo = "Novembre"
-            "12" -> monthTo = "Décembre"
-
-        }
-
-
-        return monthTo
-    }
 
 
     fun getCityName(jo: JSONObject): String {

@@ -1,7 +1,7 @@
 package androidviakotlin.blog.weatherforecastbygps
 
 import android.content.Intent
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +11,10 @@ import androidviakotlin.blog.weatherforecastbygps.R
 import com.squareup.picasso.Picasso
 
 
-class ItemWeatherAdapter(val datas: List<MutableList<String>>) : RecyclerView.Adapter<ItemWeatherAdapter.ViewHolder>() {
+class ItemWeatherAdapter(val datas: List<MutableList<String>>) : androidx.recyclerview.widget.RecyclerView.Adapter<ItemWeatherAdapter.ViewHolder>() {
 
 
-    class ViewHolder(itemView: View, var urlArticle : String = "") : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, var urlArticle : String = "") : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
 
         val icon_weather = itemView.findViewById<ImageView>(R.id.icon_weather)

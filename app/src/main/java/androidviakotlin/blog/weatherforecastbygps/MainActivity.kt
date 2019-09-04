@@ -2,32 +2,36 @@ package androidviakotlin.blog.weatherforecastbygps
 
 import android.app.Activity
 import android.app.ProgressDialog
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import android.view.View
 import com.google.android.gms.location.*
 import androidviakotlin.blog.weatherforecastbygps.Fragments.NowFragment
 import androidviakotlin.blog.weatherforecastbygps.Fragments.NextThreeDaysFragment
 import androidviakotlin.blog.weatherforecastbygps.Utils.Downloaders.JSONDownloaderMeteoNow
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.Executors
 
 
 class MainActivity : AppCompatActivity() {
 
     // Creation du lateInit viewModel de type LoginViewModel
     lateinit var viewModel: LatitudeViewModel
-
+    lateinit var mAdView : AdView
 
     lateinit var fusedLocationProviderClient : FusedLocationProviderClient
     lateinit var locationRequest : LocationRequest
@@ -40,6 +44,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Advertising
+        MobileAds.initialize(this) {}
+
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
 
         // On fait entrer viewModel dans le scope de l'activité
@@ -54,11 +64,17 @@ class MainActivity : AppCompatActivity() {
 
 
         // Check Permission for GPS point
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION))
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE)
-
-        else
-        {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_CODE
+            )
+        else {
             buildLocationRequest()
             buildLocationCallBack()
 
@@ -67,23 +83,36 @@ class MainActivity : AppCompatActivity() {
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
             // Set Event Click on Update Button
-            button_update_coordinates.setOnClickListener (View.OnClickListener {
+            button_update_coordinates.setOnClickListener(View.OnClickListener {
 
-                if(ActivityCompat.checkSelfPermission(this@MainActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this@MainActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED   )
-                {
-                    ActivityCompat.requestPermissions(this@MainActivity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE)
+                if (ActivityCompat.checkSelfPermission(
+                        this@MainActivity,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(
+                        this@MainActivity,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this@MainActivity,
+                        arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                        REQUEST_CODE
+                    )
                     return@OnClickListener
                 }
-                fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+                fusedLocationProviderClient.requestLocationUpdates(
+                    locationRequest,
+                    locationCallback,
+                    Looper.myLooper()
+                )
 
-                Snackbar.make(it, "Mise à jour des données",Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(it, "Mise à jour des données", Snackbar.LENGTH_SHORT).show()
 
 
             })
+
         }
-
-
     }
 
     override fun onBackPressed() {

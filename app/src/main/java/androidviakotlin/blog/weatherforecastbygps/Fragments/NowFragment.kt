@@ -1,12 +1,12 @@
 package androidviakotlin.blog.weatherforecastbygps.Fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -122,7 +122,7 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
 
-    private fun getTheNewLocation (jsonWeatherNow : String) {
+    fun getTheNewLocation (jsonWeatherNow : String) {
 
 
     // to get the String JSonData, we use the class JSONDownloaderTopStories
@@ -140,8 +140,8 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     adapter = ItemWeatherAdapter(datas)
 
-    val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view_in_layout_weather_now)
-    recyclerView?.layoutManager = LinearLayoutManager(context)
+    val recyclerView = view?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_view_in_layout_weather_now)
+    recyclerView?.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
     recyclerView?.adapter = adapter
 }
 

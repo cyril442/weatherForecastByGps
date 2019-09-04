@@ -1,6 +1,5 @@
 package androidviakotlin.blog.weatherforecastbygps.Utils
 
-import java.util.*
 
 class Weather () {
 
@@ -13,10 +12,10 @@ class Weather () {
     var humidity: String? = null
 
 
-//    fun setRealDateTime(timestamp : String) : Date {
+
+//    fun setRealDateTime(timestamp : String) : String {
 //
-//        var newDate : Date
 //
-//        return newDate
+//        return newDateStringg
 //    }
 }
