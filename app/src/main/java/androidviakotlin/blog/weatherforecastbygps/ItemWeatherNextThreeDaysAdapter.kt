@@ -44,25 +44,25 @@ class ItemWeatherNextThreeDaysAdapter(val datas: List<MutableList<Weather>>) : a
 
         when (iconCode) {
             //Sunny
-            "01d" -> holder.icon_weather.setImageResource(R.drawable.sunny_96)
+            "01d" -> holder.icon_weather.setImageResource(R.drawable.ic_icons8_summer)
             // Sun Night
-            "01n" -> holder.icon_weather.setImageResource(R.drawable.sun_night)
+            "01n" -> holder.icon_weather.setImageResource(R.drawable.ic_icons8_night)
             // Partially cloudy
             "02n", "02d", "03n", "03d"  -> holder.icon_weather.setImageResource(R.drawable.partly_cloudly)
             // Mostly Cloudly
             "04d","04n" -> holder.icon_weather.setImageResource(R.drawable.mostly_cloudy)
             // Fog
-            "50d", "50n" -> holder.icon_weather.setImageResource(R.drawable.fog)
+            "50d", "50n" -> holder.icon_weather.setImageResource(R.drawable.ic_icons8_fog)
             //Snow
-            "13d", "13n" -> holder.icon_weather.setImageResource(R.drawable.snow)
+            "13d", "13n" -> holder.icon_weather.setImageResource(R.drawable.ic_icons8_winter)
             // Moderate Rain
-            "10d", "10n" -> holder.icon_weather.setImageResource(R.drawable.moderate_rain)
+            "10d", "10n" -> holder.icon_weather.setImageResource(R.drawable.ic_icons8_moderate_rain)
             // Rain
-            "09d", "09n" -> holder.icon_weather.setImageResource(R.drawable.rainy)
+            "09d", "09n" -> holder.icon_weather.setImageResource(R.drawable.ic_icons8_rainy_weather)
             // Storm
-            "11d", "11n" -> holder.icon_weather.setImageResource(R.drawable.storm)
+            "11d", "11n" -> holder.icon_weather.setImageResource(R.drawable.ic_icons8_storm)
 
-            else -> holder.icon_weather.setImageResource(R.drawable.ic_launcher_background)
+            else -> holder.icon_weather.setImageResource(R.drawable.launcher_weather)
             //downLoadPicassoIcon(pictureToDownload)
 
         }
