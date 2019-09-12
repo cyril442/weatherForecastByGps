@@ -1,7 +1,5 @@
 package androidviakotlin.blog.weatherforecastbygps
 
-import android.content.Intent
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,7 +60,7 @@ class ItemWeatherNextThreeDaysAdapter(val datas: List<MutableList<Weather>>) : a
             // Storm
             "11d", "11n" -> holder.icon_weather.setImageResource(R.drawable.ic_icons8_storm)
 
-            else -> holder.icon_weather.setImageResource(R.drawable.launcher_weather)
+            else -> holder.icon_weather.setImageResource(R.drawable.launcher_weather_adobe)
             //downLoadPicassoIcon(pictureToDownload)
 
         }

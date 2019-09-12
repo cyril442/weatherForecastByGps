@@ -37,4 +37,6 @@ class LatitudeViewModel : ViewModel() {
     }
 
 
+
+
 }

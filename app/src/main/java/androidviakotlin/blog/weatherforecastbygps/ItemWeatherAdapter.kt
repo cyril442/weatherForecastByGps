@@ -1,14 +1,10 @@
 package androidviakotlin.blog.weatherforecastbygps
 
-import android.content.Intent
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidviakotlin.blog.weatherforecastbygps.R
-import com.squareup.picasso.Picasso
 
 
 class ItemWeatherAdapter(val datas: List<MutableList<String>>) : androidx.recyclerview.widget.RecyclerView.Adapter<ItemWeatherAdapter.ViewHolder>() {
@@ -61,7 +57,7 @@ class ItemWeatherAdapter(val datas: List<MutableList<String>>) : androidx.recycl
             // Storm
             "11d" -> holder.icon_weather.setImageResource(R.drawable.ic_icons8_storm)
 
-            else -> holder.icon_weather.setImageResource(R.drawable.launcher_weather)
+            else -> holder.icon_weather.setImageResource(R.drawable.launcher_weather_adobe)
             //downLoadPicassoIcon(pictureToDownload)
 
         }

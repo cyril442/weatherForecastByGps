@@ -1,5 +1,8 @@
 package androidviakotlin.blog.weatherforecastbygps.Fragments
 
+import android.app.Application
+import android.content.Context
+import android.os.AsyncTask
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -15,8 +18,10 @@ import androidviakotlin.blog.weatherforecastbygps.ItemWeatherAdapter
 import androidviakotlin.blog.weatherforecastbygps.LatitudeViewModel
 
 import androidviakotlin.blog.weatherforecastbygps.R
+import androidviakotlin.blog.weatherforecastbygps.Utils.AsyncTask.DownloadParsePrintUiTask
 import androidviakotlin.blog.weatherforecastbygps.Utils.Downloaders.JSONDownloaderMeteoNow
 import androidviakotlin.blog.weatherforecastbygps.Utils.Parsers.parseDatasWeatherNow
+import androidx.fragment.app.FragmentActivity
 import java.util.concurrent.Executors
 
 @Suppress("UNREACHABLE_CODE")
@@ -78,8 +83,8 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 
         getTheNewLocation(jsonWeatherNow)
-
-
+//
+//
         // On fait entrer viewModel dans le scope de l'activité
         viewModelLatitude = ViewModelProviders.of(activity!!).get(LatitudeViewModel::class.java)
       //  viewModelLongitude = ViewModelProviders.of(activity!!).get(LatitudeViewModel::class.java)
@@ -96,12 +101,14 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
             jsonWeatherNow = "http://api.openweathermap.org/data/2.5/weather?lat=$lattitude&lon=$longgitude&units=metric&appid=467005a2981f9965ac02fa6dabd5fc2e"
 
-            getTheNewLocation(jsonWeatherNow)
+           getTheNewLocation(jsonWeatherNow)
+
 
 
             })
-      })
 
+      })
+   //     DownloadParsePrintUiTask(activity, jsonWeatherNow).execute()
 
     }
 
