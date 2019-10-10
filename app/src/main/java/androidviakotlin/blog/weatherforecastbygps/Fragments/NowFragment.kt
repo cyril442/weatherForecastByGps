@@ -32,6 +32,7 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 
 
+
     var datas = mutableListOf(
         mutableListOf<String>(
             "un",
@@ -141,7 +142,9 @@ class NowFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 
     // To Parse the result of the JSONDownloadTopStories using the external CLass parseDatas() which include the method parseDatasFromApi
-    datas = parseDatasWeatherNow().parseDatasFromApi(jsonDataPreview)
+    datas = parseDatasWeatherNow(context!!,jsonDataPreview).execute().get()
+        //     datas = parseDatasWeatherNow(context!!,jsonDataPreview).parseDatasFromApi(jsonDataPreview)
+
     Log.i("bingo", " datas parsed : $datas")
 
 

@@ -124,7 +124,7 @@ class NextThreeDaysFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 
         // To Parse the result of the JSONDownloadTopStories using the external CLass parseDatas() which include the method parseDatasFromApi
-        datas = parseDatasWeatherNextFiveDays().parseDatasFromApi(jsonDataPreview)
+        datas = parseDatasWeatherNextFiveDays(jsonDataPreview).parseDatasFromApi(jsonDataPreview)
         Log.i("banga", " datas parsed : $datas")
 
 

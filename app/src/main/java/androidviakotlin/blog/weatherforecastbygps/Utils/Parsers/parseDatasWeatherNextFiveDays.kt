@@ -1,6 +1,7 @@
 package androidviakotlin.blog.weatherforecastbygps.Utils.Parsers
 
 
+import android.os.AsyncTask
 import android.util.Log
 import androidviakotlin.blog.weatherforecastbygps.Fragments.NextThreeDaysFragment
 import androidviakotlin.blog.weatherforecastbygps.Utils.Weather
@@ -9,7 +10,15 @@ import org.json.JSONObject
 import java.util.ArrayList
 
 
-class parseDatasWeatherNextFiveDays() {
+class parseDatasWeatherNextFiveDays(jsonDataPreview: String) : AsyncTask<String, Void,  MutableList<MutableList<Weather>>>() {
+
+    var pong = jsonDataPreview
+
+    override fun doInBackground(vararg params: String?): MutableList<MutableList<Weather>> {
+        var datas = parseDatasFromApi(pong)
+
+        return datas
+    }
 
 
     val YEAR_MONTH_DAY = 10
@@ -182,7 +191,15 @@ class parseDatasWeatherNextFiveDays() {
             var temperature = temperatureObj.getString("temp")
             Log.i("banga2", "temperature : $temperature")
 
-            temp.add(temperature)
+            // Test pour arrondir
+
+            var temperatureArrondie = temperature.toDouble()
+            var tempArrondie = temperatureArrondie.toInt()
+            var tempArrondieALadecimale = tempArrondie.toString()
+            Log.i("banga2", "temperatureALaDecimale : $tempArrondieALadecimale")
+
+
+            temp.add(tempArrondieALadecimale)
         }
 
         return temp
@@ -206,7 +223,12 @@ class parseDatasWeatherNextFiveDays() {
             var speed = speedObj.getString("speed")
             Log.i("banga2", "speed : $speed")
 
-            arraySpeed.add(speed)
+            // Arrondir wind speed
+            var speedArrondi = speed.toDouble()
+            var spedArrondir = speedArrondi.toInt()
+            var speedArrondiALaDecimale = spedArrondir.toString()
+
+            arraySpeed.add(speedArrondiALaDecimale)
         }
 
         return arraySpeed

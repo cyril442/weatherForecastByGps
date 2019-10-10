@@ -12,9 +12,12 @@ class Weather () {
     var humidity: String? = null
 
 
-
+//    var newDay = setRealDateTime(timestamp.toString())
+//
 //    fun setRealDateTime(timestamp : String) : String {
 //
+//        var dateToConsider = timestamp
+//        var toGetDay = timestamp.Date
 //
 //        return newDateStringg
 //    }

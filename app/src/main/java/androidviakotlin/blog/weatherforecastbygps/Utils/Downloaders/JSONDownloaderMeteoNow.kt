@@ -109,8 +109,8 @@ class JSONDownloaderMeteoNow(private var c: Context, private var jsonWeatherNow:
         super.onPreExecute()
 
         pd = ProgressDialog(c)
-        pd.setTitle("Download Json")
-        pd.setMessage("Downloading... Please wait...")
+        pd.setTitle("Chargement des données")
+        pd.setMessage("réponse de la Grenouille... Please wait...")
         pd.show()
     }
 
