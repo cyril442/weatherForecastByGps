@@ -10,6 +10,8 @@ import org.json.JSONObject
 import java.util.ArrayList
 
 
+
+
 class parseDatasWeatherNextFiveDays(jsonDataPreview: String) : AsyncTask<String, Void,  MutableList<MutableList<Weather>>>() {
 
     var pong = jsonDataPreview
@@ -26,8 +28,13 @@ class parseDatasWeatherNextFiveDays(jsonDataPreview: String) : AsyncTask<String,
     val FIRST_FOUR = 4
     val LAST_TWO = 2
     val EIGHT = 8
+    val ONE = 1
+    val TWO = 2
     val FIVE = 5
+    val LAST_FIVE = 5
+    val FIRST_TEN = 10
     val FIRST_ELEMENT_OF_THE_INDEX = 0
+    val FIRST_TWO = 2
     val SECOND_ELEMENT_OF_THE_INDEX = 1
     val DUMB_PICTURE_WHEN_NO_PIC_TO_DOWNLOAD =
         "https://i5.photobucket.com/albums/y152/courtney210/wave-bashful_zps5ab77563.jpg"
@@ -68,14 +75,32 @@ class parseDatasWeatherNextFiveDays(jsonDataPreview: String) : AsyncTask<String,
 
 
             // Get TimeStamp and Temperature
+
+            // ---- Get The Date of the Day to compare wit other dates in Json ---- //
+
+            var uniqueDate = jaList.getJSONObject(0)
+            Log.i("banga8", "uniqueDate : $uniqueDate")
+            var laDateUnique = uniqueDate.getString("dt_txt")
+            Log.i("banga8", "LaDateUnique : $laDateUnique")
+
+            // Transformation DateUnique into an Int
+            var firstTenCharacters = laDateUnique.take(FIRST_TEN)
+            var daysOfTheTimestampNotFormated = firstTenCharacters.takeLast(TWO)
+            var dateUnique = daysOfTheTimestampNotFormated.toInt()
+
+
+
+
             val jsonArrayList = jo.getJSONArray("list")
             for (i in 0 until jsonArrayList.length()) {
                 val joTimestamp = jsonArrayList.getJSONObject(i)
 
+
+
                 val timestampNotFormated = joTimestamp.getString("dt_txt")
                 Log.i("banga8", "timestampNotFormated : $timestampNotFormated")
 
-                val timestamp = getTheCorrectDateFormat(timestampNotFormated)
+                val timestamp = getTheCorrectDateFormat(timestampNotFormated, dateUnique)
 
          //       val timestamp = joTimestamp.getString("dt_txt")
 
@@ -131,9 +156,12 @@ class parseDatasWeatherNextFiveDays(jsonDataPreview: String) : AsyncTask<String,
     }
 
 
-    fun getTheCorrectDateFormat(timestamp: String?): String {
+    fun getTheCorrectDateFormat(timestamp: String?, dateUnique : Int): String {
 
         var letimestamp: String
+
+        var laUnique = dateUnique
+        var laDateUniqueEnString: String
 
         var dateTenChar = timestamp?.take(YEAR_MONTH_DAY)
         var day = dateTenChar?.takeLast(LAST_TWO)
@@ -149,12 +177,108 @@ class parseDatasWeatherNextFiveDays(jsonDataPreview: String) : AsyncTask<String,
         var hours = hourLastEight?.take(FIVE)
 
 
+        // test jours : Aujourd'hui/demain/Après-demain 
 
-        letimestamp = "le $day $monthToPrint a $hours"
+        var dateOfTheDay = timestamp?.take(YEAR_MONTH_DAY)
+        var dateDay = dateOfTheDay?.takeLast(LAST_TWO)
+        var dateStringToInt = dateDay?.toInt().toString()
+
+        var dateIntToInt = dateDay?.toInt()
+
+
+
+        var todayIsToday = dateStringToInt.toString()
+        Log.i("banga9", "todayISToday : $todayIsToday")
+
+
+        var oneone = ONE.toInt()
+
+        var resultTomorrow = laUnique + oneone
+        var tomorrow = resultTomorrow.toString()
+        //var tomorrow = (laUnique+1).toString()
+        Log.i("banga9", "tomorrowValue : $tomorrow")
+        var afterTomorrow = laUnique.plus(TWO.toInt()).toString()
+        Log.i("banga9", "afterTomorrow : $afterTomorrow")
+
+
+        // Only in Int
+
+        var resulttToday = laUnique
+        var resulttTomorrow = laUnique + ONE.toInt()
+        var resulttAfterTomorrow = laUnique + TWO.toInt()
+
+        var queljour = "Aujourd'hui"
+//        when (dateStringToInt) {
+//
+//          //  dateStringToInt -> queljour = "Aujourd'hui"
+//            tomorrow -> queljour = "Demain"
+//            afterTomorrow -> queljour = "Après demain"
+//
+//         //   todayIsToday = 01 -> letimestamp = "Demain"
+//
+//
+//
+//            else -> queljour = "Après 72h"
+//        }
+
+        when (dateIntToInt) {
+
+            resulttToday -> queljour = "Aujourd'hui"
+            resulttTomorrow -> queljour = "Demain"
+            resulttAfterTomorrow -> queljour = "Après Demain"
+
+            else -> queljour = "Après 72h"
+        }
+
+//        if (dateStringToInt == laDateUniqueEnString) queljour = "Aujourd'hui"
+//        if (tomorrow == laDateUniqueEnString)  queljour = "Demain"
+//        if (afterTomorrow == laDateUniqueEnString) queljour = "Après Demain"
+//        else queljour = "Dans 3 jours"
+
+
+//        if (dateStringToInt == todayIsToday) { queljour = "Aujourd'hui" }
+//        if (dateStringToInt == tomorrow) { queljour = "Demain"}
+//        if (dateStringToInt == afterTomorrow) { queljour = "Après demain"}
+//        else queljour = "Dans plus de 72h"
+
+
+
+        letimestamp = "$queljour à $hours"
 
         return letimestamp
     }
 
+    fun getTheCorrectDateFormatTwo(timestamp: String, laDateUnique : Int): String {
+
+        var dayToReturn : String
+        var today = laDateUnique
+
+
+        // Transformation TimeStamp to Day
+        var firstTenCharacters = timestamp.take(FIRST_TEN)
+        var daysOfTheTimestampNotFormated = firstTenCharacters.takeLast(TWO)
+        var dayFromStringToInt = daysOfTheTimestampNotFormated.toInt()
+
+        var baseDay = dayFromStringToInt
+
+
+        var tomorrow = baseDay.plus(1)
+        var afterTomorrow = tomorrow.plus(1)
+        var otherDay = afterTomorrow.plus(1)
+
+        when (today) {
+
+            dayFromStringToInt -> dayToReturn = "Aujour'dhui"
+            tomorrow -> dayToReturn = "Demain"
+            afterTomorrow -> dayToReturn = "Après demain"
+            else -> dayToReturn = "Dans 3 jours"
+
+      //      else -> dayToReturn = "Aujourd'hui"
+        }
+
+
+        return dayToReturn
+    }
 
 
 
